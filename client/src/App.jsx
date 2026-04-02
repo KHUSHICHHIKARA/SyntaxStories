@@ -5,6 +5,9 @@ import PostPage from "./pages/PostPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
 import  Navbar from "./components/Navbar"
+import ProtectedRoute from "./components/ProtectedRoute";
+import CreatePost from "./pages/CreatePost";
+import EditPost from "./pages/EditPost";
 
 function App() {
   return (
@@ -16,7 +19,9 @@ function App() {
           <Route path="/" element={<HomePage/>} />
           <Route path="/post/:id" element={<PostPage/>} />
           <Route path="/admin/login" element={<LoginPage/>} />
-          <Route path="/admin/dashboard" element={<AdminDashboard/>} />
+          <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/admin/create-post" element={<ProtectedRoute><CreatePost/></ProtectedRoute>}/>
+          <Route path="/admin/edit-post/:id" element ={<ProtectedRoute><EditPost/></ProtectedRoute>}></Route>
         </Routes>
       </div>
     </BrowserRouter>

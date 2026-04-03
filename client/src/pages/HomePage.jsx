@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react";
-import axios from "axios";
 import PostListItem from "../components/PostListItem";
 import "./HomePage.css";
 import apiService from "../services/apiService.js";
+import {Helmet} from "react-helmet-async";
 
 const HomePage=()=>{
 
@@ -47,6 +47,13 @@ const HomePage=()=>{
     if (error) return <div style={{ color: "red" }}>{error}</div>;
     return (
         <div className="home-page">
+            <Helmet>
+                <title>SyntaxStories - Latest Posts</title>
+                <meta 
+                    name="description"
+                    content="Read the latest posts."
+                />
+            </Helmet>
             <h1>Latest Posts</h1>
             <div className="post-list">
                 {posts.length>0?(

@@ -2,7 +2,7 @@ import express from 'express'
 import {
     createPost,
     getAllPost,
-    getPostById,
+    getPostBySlug,
     updatePost,
     deletePost
 } from '../controllers/postController.js'

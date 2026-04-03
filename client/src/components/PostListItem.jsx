@@ -10,7 +10,7 @@ const PostListItem=({post})=>{
             <h2>{post.title}</h2>
             <div className="post-meta">
                 <span>by {post.author}</span>
-                <span>{new Date(post.createdAt).toLocaleDateString}</span>
+                <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                 <p className="post-snippet">{snippet}</p>
             </div>
         </article>

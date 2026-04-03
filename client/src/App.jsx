@@ -17,7 +17,7 @@ function App() {
         <main style={{padding:"1rem"}}/>
         <Routes>
           <Route path="/" element={<HomePage/>} />
-          <Route path="/post/:id" element={<PostPage/>} />
+          <Route path="/post/:slug" element={<PostPage/>} />
           <Route path="/admin/login" element={<LoginPage/>} />
           <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/admin/create-post" element={<ProtectedRoute><CreatePost/></ProtectedRoute>}/>

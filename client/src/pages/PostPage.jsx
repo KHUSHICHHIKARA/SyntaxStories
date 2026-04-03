@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import "../markdown-styles.css";
 
 const PostPage=()=>{
-    const {id}=useParams();
+    const {slug}=useParams();
 
     const [post,setPost]=useState(null);
     const [error,setError]=useState(null);
@@ -16,7 +16,7 @@ const PostPage=()=>{
             setLoading(true);
             setError(null);
             try{
-                const res=await axios.get(`http://localhost:5000/api/posts/${id}`);
+                const res=await axios.get(`http://localhost:5000/api/posts/${slug}`);
                 setPost(res.data);
             }catch(err){
                 setError("Failed to fetch posts.Please try again later");
@@ -26,7 +26,7 @@ const PostPage=()=>{
             }        
         }
         fetchPost();
-    },[id]);
+    },[slug]);
     if(error){
         return <div style={{color:"red",textAlign:"center",marginTop:"2rem"}}>Error :{error}</div>
     }

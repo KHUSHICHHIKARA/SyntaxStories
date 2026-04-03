@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-
+import slugify from "slugify";
 const postSchema=new mongoose.Schema({
     title:{
         type:String,
@@ -17,6 +17,15 @@ const postSchema=new mongoose.Schema({
     createdAt:{
         type:Date,
         default:Date.now
+    },
+    slug:{
+        type:String,
+        unique:true,
+    }
+})
+postSchema.pre("save",function(){
+    if(this.isModified("title")){
+        this.slug=slugify(this.title,{lower:true,strict:true})
     }
 })
 

@@ -27,9 +27,9 @@ const getAllPost=async(req,res)=>{
         res.status(500).json({message:'Error fetching posts',error:error.message})
     }
 }
-const getPostById=async (req,res) => {
+const getPostBySlug=async (req,res) => {
     try{
-        const post=await Post.findById(req.params.id)
+        const post=await Post.findOne({slug:req.params.slug})
         if(post){
             res.status(200).json(post)
         }else{

@@ -12,7 +12,7 @@ import protect from "../middleware/authMiddleware.js"
 const router=express.Router()
 
 router.get("/",getAllPost)
-router.get("/:id",getPostById)
+router.get("/:slug",getPostBySlug)
 
 router.post("/",protect,createPost)
 router.patch("/:id",protect,updatePost)

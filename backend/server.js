@@ -4,13 +4,27 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
-dotenv.config()
-const app=express()
-app.use(express.json())
 import postRoutes from "./routes/postRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
+dotenv.config()
 
-app.use(cors())
+const whitelist=[process.env.FRONTEND_URL];
+const corsOption={
+    origin:(origin,callback)=>{
+        if(whitelist.indexOf(origin)!==-1 || !origin){
+            callback(null,true)
+        }else{
+            callback(new Error("Not allowed by CORS."))
+        }
+    },
+    credentials:true,
+    optionsSuccessStatus:200
+}
+
+
+const app=express()
+app.use(express.json())
+app.use(cors(corsOption))
 
 const port=process.env.PORT || 5000
 

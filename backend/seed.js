@@ -6,9 +6,6 @@ import dotenv from "dotenv"
 import User from"./models/userModel.js"
 
 dotenv.config()
-
-const ADMIN_USERNAME="admin"
-const ADMIN_PASSWORD="pass@123"
 const seedAdmin=async()=>{
     try{
         console.log("connecting to db");
@@ -22,8 +19,8 @@ const seedAdmin=async()=>{
         }
         console.log("Admin not found.Creating new one...")
         const adminUser=new User({
-            username:ADMIN_USERNAME,
-            password:ADMIN_PASSWORD
+            username:process.env.ADMIN_USERNAME,
+            password:process.ADMIN_PASSWORD
         })
         await adminUser.save()
         console.log('----------------------------------------------------');

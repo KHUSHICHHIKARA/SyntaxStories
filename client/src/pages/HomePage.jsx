@@ -56,7 +56,7 @@ const HomePage=()=>{
             </Helmet>
             <h1>Latest Posts</h1>
             <div className="post-list">
-                {posts.length>0?(
+                { posts && posts.length>0?(
                     posts.map(post=><PostListItem key={post._id} post={post} />)
                 ):(
                     <p>No posts to display.</p>

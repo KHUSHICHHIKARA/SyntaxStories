@@ -17,7 +17,7 @@ const PostPage=()=>{
             setLoading(true);
             setError(null);
             try{
-                const res=await axios.get(`http://localhost:5000/api/posts/${slug}`);
+                const res=await axios.get( `${import.meta.env.VITE_API_URL}/api/posts/${slug}`);
                 setPost(res.data);
             }catch(err){
                 setError("Failed to fetch posts.Please try again later");

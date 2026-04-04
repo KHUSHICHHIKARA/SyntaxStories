@@ -11,6 +11,9 @@ const Navbar=()=>{
                 <li>
                     <Link to="/admin/login">Admin Login</Link>
                 </li>
+                <li>
+                    <Link to="/admin/dashboard">Admin DashBoard</Link>
+                </li>
             </ul>
         </nav>
     );

@@ -64,7 +64,7 @@ const AdminDashboard = () => {
                 <td>{post.author}</td>
                 <td>{new Date(post.createdAt).toLocaleDateString()}</td>
                 <td className="action-buttons">
-                  <Link to={`/admin/edit-post/${post._id}`} className="btn edit-btn">Edit</Link>
+                  <Link to={`/admin/edit-post/${post.slug}`} className="btn edit-btn">Edit</Link>
                   <button onClick={()=>handleDelete(post._id)} className="btn delete-btn">Delete</button>
                 </td>
               </tr>

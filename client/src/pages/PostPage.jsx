@@ -4,10 +4,10 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import "../markdown-styles.css";
 import {Helmet} from "react-helmet-async";
+import CategoryTag from "../components/CategoryTag";
 
 const PostPage=()=>{
     const {slug}=useParams();
-
     const [post,setPost]=useState(null);
     const [error,setError]=useState(null);
     const [loading,setLoading]=useState(true);
@@ -34,7 +34,7 @@ const PostPage=()=>{
         const plainText = markdown
         .replace(/!\[.*?\]\(.*?\)/g, '') 
         .replace(/\[(.*?)\]\(.*?\)/g, '$1') 
-        .replace(/[`*#_~]/g, '') 
+        .replace(/[`*#_~]/g, '')
         .replace(/\s+/g, ' ');
         return plainText.substring(0, 155).trim() + '...';
     };
@@ -48,6 +48,12 @@ const PostPage=()=>{
     if(!post){
         return <div>Post not found.</div>
     }
+    const categoriesContainerStyle={
+        marginTop: '1rem',
+        marginBottom: '1rem',
+        borderBottom: '1px solid #eee',
+        paddingBottom: '1rem'
+    };
     return(
         <article className="post-full">
             <Helmet>
@@ -63,6 +69,13 @@ const PostPage=()=>{
                 <br />
                 <span>published on {new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
+            {post.categories && post.categories.length >0 && (
+                <div style={categoriesContainerStyle}>
+                    {post.categories.map(category=>(
+                        <CategoryTag key={category} category={category}/>
+                    ))}
+                </div>
+            )}
             <div className="post-full-content">
                 <ReactMarkdown>{post.markdownContent}</ReactMarkdown>
             </div>

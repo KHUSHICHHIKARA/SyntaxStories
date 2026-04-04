@@ -4,21 +4,25 @@ import apiService from "../services/apiService.js";
 import "./CreatePost.css";
 
 const EditPost=()=>{
-    const { id } = useParams();
+    const { slug } = useParams();
     const [title, setTitle] = useState("");
     const [markdownContent, setMarkdownContent] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [categories,setCategories]=useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPost=async()=>{
             setLoading(true);
             try{
-                const response = await apiService.get(`/posts/${id}`);
+                const response = await apiService.get(`/posts/${slug}`);
                 setTitle(response.data.title);
                 setMarkdownContent(response.data.markdownContent);
+                if(response.data.categories && Array.isArray(response.data.categories)){
+                    setCategories(response.data.categories.join(", "));
+                }
             }catch(err) {
                 console.error("Failed to fetch post for editing:", err);
                 setError("Failed to load post data. Please try again.");
@@ -27,7 +31,7 @@ const EditPost=()=>{
             }
         };
         fetchPost();
-    }, [id]);
+    }, [slug]);
 
     const handleSubmit=async(event)=>{
         event.preventDefault();
@@ -39,10 +43,11 @@ const EditPost=()=>{
             setSubmitting(false);
             return;
         }
+        const categoriesArray=categories.split(",").map(c=>c.trim()).filter(c=>c);
         try {
-            await apiService.patch(`/posts/${id}`, {title,markdownContent});
+            await apiService.patch(`/posts/${slug}`, {title,markdownContent,categories:categoriesArray});
             navigate("/admin/dashboard");
-        }catch(err) {
+        }catch(err){
             console.error("Failed to update post:", err);
             setError(err.response?.data?.message || "Failed to update post. Please try again.");
             setSubmitting(false);
@@ -77,6 +82,17 @@ const EditPost=()=>{
                     onChange={(e)=>setMarkdownContent(e.target.value)}
                     disabled={submitting}
                 />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="categories">Categories (comma-separated)</label>
+                    <input type="text" 
+                        id="categories" 
+                        className="form-control" 
+                        value={categories}
+                        onChange={(e)=>setCategories(e.target.value)}
+                        placeholder="e.g., React,Web Development,Tutorial"
+                        disabled={loading}
+                    />
                 </div>
                 {error && <p className="error-message">{error}</p>}
                 <button type="submit" className="submit-btn" disabled={submitting}>

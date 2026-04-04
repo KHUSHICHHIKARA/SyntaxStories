@@ -4,10 +4,11 @@ import HomePage from "./pages/HomePage";
 import PostPage from "./pages/PostPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
-import  Navbar from "./components/Navbar"
+import Navbar from "./components/Navbar"
 import ProtectedRoute from "./components/ProtectedRoute";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
+import CategoryPage from "./pages/CategoryPage";
 
 function App() {
   return (
@@ -19,9 +20,10 @@ function App() {
           <Route path="/" element={<HomePage/>} />
           <Route path="/post/:slug" element={<PostPage/>} />
           <Route path="/admin/login" element={<LoginPage/>} />
+          <Route path="/category/:categoryName" element={<CategoryPage/>}/>
           <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/admin/create-post" element={<ProtectedRoute><CreatePost/></ProtectedRoute>}/>
-          <Route path="/admin/edit-post/:id" element ={<ProtectedRoute><EditPost/></ProtectedRoute>}></Route>
+          <Route path="/admin/edit-post/:slug" element ={<ProtectedRoute><EditPost/></ProtectedRoute>}></Route>
         </Routes>
       </div>
     </BrowserRouter>

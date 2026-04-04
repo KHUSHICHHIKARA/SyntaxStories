@@ -1,13 +1,14 @@
 import Post from '../models/postModel.js'
 const createPost=async(req,res)=>{
     try{
-        const {title,markdownContent,author}=req.body
+        const {title,markdownContent,categories,author}=req.body
         if(!title || !markdownContent){
             return res.status(400).json({message:'Please provide a title and content for the post.'})
         }
         const newPost=await Post.create({
             title,
             markdownContent,
+            categories,
             author
         })
 
@@ -60,18 +61,20 @@ const getPostBySlug=async (req,res) => {
 }
 const updatePost=async(req,res)=>{
     try{
-        const updatedPost=await Post.findByIdAndUpdate(
-            req.params.id,
-            req.body,
+        const {title,markdownContent,categories}=req.body;
+        const updatedData={title,markdownContent,categories};
+        const updatedPost=await Post.findOneAndUpdate(
+            {slug:req.params.slug},
+            updatedData,
             {
-                new:true,
+                returnDocument:"after",
                 runValidators:true
             }
         )
         if(updatedPost){
             res.status(200).json(updatedPost)
         }else{
-            rs.status(404).json({message:'Post not found'})
+            res.status(404).json({message:'Post not found'})
         }
     }catch(error){
         console.log(error)
@@ -100,10 +103,20 @@ const deletePost=async (req,res) => {
         res.status(500).json({message:'Error deleting post',error:error.message})
     }
 }
+const getPostByCategory=async(req,res)=>{
+    try{
+        const categoryName=req.params.categoryName;
+        const posts=await Post.find({categories:categoryName}).sort({createdAt:-1});
+        res.status(200).json(posts);
+    }catch(error){
+        res.status(500).json({message:"Error fetching post by category.",error:error.message});
+    }
+}
 export{
     createPost,
     getAllPost,
     getPostBySlug,
     updatePost,
-    deletePost
+    deletePost,
+    getPostByCategory,
 }

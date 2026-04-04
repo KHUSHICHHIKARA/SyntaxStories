@@ -8,6 +8,7 @@ const CreatePost=()=>{
     const [markdownContent,setMarkdownContent]=useState("");
     const [error,setError]=useState("");
     const [loading,setLoading]=useState(false);
+    const [categories,setCategories]=useState("");
     const navigate=useNavigate();
 
     const handleSubmit=async(event)=>{
@@ -20,10 +21,12 @@ const CreatePost=()=>{
             setLoading(false);
             return;
         }
+        const categoriesArray=categories.split(",").map(c=>c.trim()).filter(c=>c);
         try{
             await apiService.post("/posts",{
                 title,
                 markdownContent,
+                categories:categoriesArray,
                 author:"Admin"
             });
             navigate("/admin/dashboard");
@@ -54,9 +57,20 @@ const CreatePost=()=>{
                     <textarea className="form-control markdown-input" 
                         id="markdownContent"
                         value={markdownContent}
-                        placeholder="Write your post content here using Mardown..."
+                        placeholder="Write your post content here using Markdown..."
                         disabled={loading}
                         onChange={(e)=>setMarkdownContent(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="categories">Categories (comma-separated)</label>
+                    <input type="text" 
+                        id="categories" 
+                        className="form-control" 
+                        value={categories}
+                        onChange={(e)=>setCategories(e.target.value)}
+                        placeholder="e.g., React,Web Development,Tutorial"
+                        disabled={loading}
                     />
                 </div>
 

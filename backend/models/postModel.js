@@ -14,15 +14,15 @@ const postSchema=new mongoose.Schema({
         type:String,
         default:'Admin'
     },
-    createdAt:{
-        type:Date,
-        default:Date.now
-    },
     slug:{
         type:String,
         unique:true,
-    }
-})
+    },
+    categories:{
+        type:[String],
+        default:[],
+    },
+},{timestamps:true})
 postSchema.pre("save",function(){
     if(this.isModified("title")){
         this.slug=slugify(this.title,{lower:true,strict:true})

@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import "../markdown-styles.css";
 import {Helmet} from "react-helmet-async";
 import CategoryTag from "../components/CategoryTag";
+import apiService from "../services/apiService"
 
 const PostPage=()=>{
     const {slug}=useParams();
@@ -17,7 +18,7 @@ const PostPage=()=>{
             setLoading(true);
             setError(null);
             try{
-                const res=await axios.get( `${import.meta.env.VITE_API_URL}/api/posts/${slug}`);
+                const res=await apiService.get( `${import.meta.env.VITE_API_URL}/posts/${slug}`);
                 setPost(res.data);
             }catch(err){
                 setError("Failed to fetch posts.Please try again later");

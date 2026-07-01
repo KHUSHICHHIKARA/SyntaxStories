@@ -23,10 +23,11 @@ const postSchema=new mongoose.Schema({
         default:[],
     },
 },{timestamps:true})
-postSchema.pre("save",function(){
+postSchema.pre("save",function(next){
     if(this.isModified("title")){
         this.slug=slugify(this.title,{lower:true,strict:true})
     }
+    next()
 })
 
 const Post=mongoose.model('Post',postSchema)

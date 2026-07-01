@@ -18,6 +18,6 @@ router.get("/:slug",getPostBySlug)
 
 router.post("/",protect,createPost)
 router.patch("/:slug",protect,updatePost)
-router.delete("/:id",protect,deletePost)
+router.delete("/:slug",protect,deletePost)
 
 export default router

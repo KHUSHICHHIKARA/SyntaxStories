@@ -59,6 +59,15 @@ const getPostBySlug=async (req,res) => {
         res.status(500).json({message:'Error fetching post',error:error.message})
     }
 }
+const getPostByCategory=async(req,res)=>{
+    try{
+        const categoryName=req.params.categoryName;
+        const posts=await Post.find({categories:categoryName}).sort({createdAt:-1});
+        res.status(200).json(posts);
+    }catch(error){
+        res.status(500).json({message:"Error fetching post by category.",error:error.message});
+    }
+}
 const updatePost=async(req,res)=>{
     try{
         const {title,markdownContent,categories}=req.body;
@@ -103,15 +112,7 @@ const deletePost=async (req,res) => {
         res.status(500).json({message:'Error deleting post',error:error.message})
     }
 }
-const getPostByCategory=async(req,res)=>{
-    try{
-        const categoryName=req.params.categoryName;
-        const posts=await Post.find({categories:categoryName}).sort({createdAt:-1});
-        res.status(200).json(posts);
-    }catch(error){
-        res.status(500).json({message:"Error fetching post by category.",error:error.message});
-    }
-}
+
 export{
     createPost,
     getAllPost,

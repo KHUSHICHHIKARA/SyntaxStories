@@ -20,8 +20,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>} />
           <Route path="/post/:slug" element={<PostPage/>} />
-          <Route path="/admin/login" element={<LoginPage/>} />
-          <Route path="/admin/register" element={<RegisterPage/>} />
+          <Route path="/auth/login" element={<LoginPage/>} />
+          <Route path="/auth/register" element={<RegisterPage/>} />
           <Route path="/category/:categoryName" element={<CategoryPage/>}/>
           <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/admin/create-post" element={<ProtectedRoute><CreatePost/></ProtectedRoute>}/>

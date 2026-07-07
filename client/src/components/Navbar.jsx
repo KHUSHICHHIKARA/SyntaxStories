@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-
+import Logout from "./Logout";
 const Navbar=()=>{
     return(
         <nav className="navbar">
@@ -10,6 +10,8 @@ const Navbar=()=>{
                 </li>
                 <li>
                     <Link to="/admin/login">Admin Login</Link>
+                    <Link to="/admin/register">Register</Link>
+                    <Logout/>
                 </li>
                 <li>
                     <Link to="/admin/dashboard">Admin DashBoard</Link>

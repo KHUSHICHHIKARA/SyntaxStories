@@ -66,7 +66,7 @@ const PostPage=()=>{
             </Helmet>
             <h1>{post.title}</h1>
             <div className="post-full-meta">
-                <span>by {post.author}</span>
+                <span>by {post.author.username}</span>
                 <br />
                 <span>published on {new Date(post.createdAt).toLocaleDateString()}</span>
             </div>

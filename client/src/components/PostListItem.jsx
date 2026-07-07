@@ -9,13 +9,12 @@ const PostListItem=({post})=>{
     const snippet=post.markdownContent
     .replace(/[#*`]/g," ").substring(0,150)+".....";
 
-    return(
-        
+    return(    
         <article className="post-list-item">
             <Link to={`/post/${post.slug}`} className="post-link">
                 <h2>{post.title}</h2>
                 <div className="post-meta">
-                    <span>by {post.author}</span>
+                    <span>by {post.author.username}</span>
                     <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                     <p className="post-snippet">{snippet}</p>
                 </div>

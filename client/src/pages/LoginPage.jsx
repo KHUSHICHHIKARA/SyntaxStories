@@ -62,6 +62,7 @@ const LoginPage = () => {
         </div>
         {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
         <button type="submit" className="login-button" disabled={loading}>{loading ? "Logging In..." :"LogIn"}</button>
+        <p className="auth-redirect">Don't have an account? <Link to="admin/register">Register</Link></p>
       </form>
     </div>
   );

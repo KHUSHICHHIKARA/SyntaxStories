@@ -11,8 +11,9 @@ const postSchema=new mongoose.Schema({
         required:[true,'A post must have content.']
     },
     author:{
-        type:String,
-        default:'Admin'
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
     },
     slug:{
         type:String,

@@ -9,7 +9,7 @@ const createPost=async(req,res)=>{
             title,
             markdownContent,
             categories,
-            author
+            author:req.user._id
         })
 
         res.status(201).json(newPost)
@@ -24,10 +24,11 @@ const getAllPost=async(req,res)=>{
         const page=parseInt(req.query.page) || 1;
         const limit=parseInt(req.query.limit) || 10;
         const skip=(page-1)*limit;
+        const filter={author:req.user._id};
+        const totalPosts=await Post.countDocuments(filter);
 
-        const totalPosts=await Post.countDocuments();
-
-        const posts=await Post.find({})
+        const posts=await Post.find(filter)
+                    .populate("author")
                     .sort({createdAt:-1})
                     .skip(skip)
                     .limit(limit);
@@ -45,7 +46,7 @@ const getAllPost=async(req,res)=>{
 }
 const getPostBySlug=async (req,res) => {
     try{
-        const post=await Post.findOne({slug:req.params.slug})
+        const post=await Post.findOne({slug:req.params.slug}).populate("author");
         if(post){
             res.status(200).json(post)
         }else{
@@ -54,7 +55,7 @@ const getPostBySlug=async (req,res) => {
     }catch(error){
         console.log(error)
         if(error.name==='CastError'){
-            return res.status(400).json({message:`Invalid ID format: ${req.params.id}`})
+            return res.status(400).json({message:`Invalid slug format: ${req.params.slug}`})
         }
         res.status(500).json({message:'Error fetching post',error:error.message})
     }
@@ -62,7 +63,7 @@ const getPostBySlug=async (req,res) => {
 const getPostByCategory=async(req,res)=>{
     try{
         const categoryName=req.params.categoryName;
-        const posts=await Post.find({categories:categoryName}).sort({createdAt:-1});
+        const posts=await Post.find({categories:categoryName}).populate("author").sort({createdAt:-1});
         res.status(200).json(posts);
     }catch(error){
         res.status(500).json({message:"Error fetching post by category.",error:error.message});
@@ -88,7 +89,7 @@ const updatePost=async(req,res)=>{
     }catch(error){
         console.log(error)
         if(error.name=='CastError'){
-            return res.status(400).json({message:`Invalid ID ${req.params.id}`})
+            return res.status(400).json({message:`Invalid slug ${req.params.slug}`})
         }
         if(error.name=='ValidationError'){
             return res.status(400).json({message:'Validation Error',error:error.message})

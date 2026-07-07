@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken"
 import User from "../models/userModel.js"
-
+const generateToken=(userId)=>{
+    return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN
+    });
+}
 const login=async(req,res)=>{
     try{
         const {username,password}=req.body
@@ -17,10 +21,7 @@ const login=async(req,res)=>{
                 message:"Invalid Credentials."
             })
         }
-        const payload ={id:user._id}
-        const token=jwt.sign(payload,process.env.JWT_SECRET,{
-            expiresIn:process.env.JWT_EXPIRES_IN
-        })
+        const token=generateToken(user._id);
         res.status(200).json({
             status:"success",
             token
@@ -33,4 +34,26 @@ const login=async(req,res)=>{
         })
     }
 }
-export default login;
+const register=async(req,res)=>{
+    try{
+        const user=req.body;
+        const {username,email,password}=user;
+        if(!username || !email || !password){
+            return res.status(400).json("Please provide username,email and password.");
+        }
+        const u=await User.exists({email});
+        if(u){
+            return res.status(400).json({message:"You are already registered with this email."});
+        }
+        let newUser=new User(user);
+        await newUser.save();
+        const token=generateToken(newUser._id);
+        res.status(201).json({message:"Registered sucessfully",token});
+    }catch(err){
+        res.status(400).json({message:"Unable to register.Please try later.",error:err.message})
+    }
+}
+export {
+    login,
+    register
+};

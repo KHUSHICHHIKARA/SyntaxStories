@@ -61,7 +61,7 @@ const AdminDashboard = () => {
             posts.map((post)=>(
               <tr key={post._id}>
                 <td>{post.title}</td>
-                <td>{post.author}</td>
+                <td>{post.author.username}</td>
                 <td>{new Date(post.createdAt).toLocaleDateString()}</td>
                 <td className="action-buttons">
                   <Link to={`/admin/edit-post/${post.slug}`} className="btn edit-btn">Edit</Link>
